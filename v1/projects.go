@@ -97,7 +97,7 @@ func (c *ProjectClient) Delete(params *DeleteProjectParams) error {
 func (c *ProjectClient) List(params *ListProjectParams) ([]*Project, error) {
 	projects := []*Project{}
 
-	req, err := c.client.NewRequest(context.Background(), "GET", "projects", nil)
+	req, err := c.client.NewRequest(context.Background(), "GET", "projects", structToReader(params))
 	if err != nil {
 		return nil, err
 	}

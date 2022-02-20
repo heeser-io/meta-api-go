@@ -9,15 +9,17 @@ import (
 	"net/http"
 )
 
-const endpoint = "https://s9nnw5lk09.execute-api.eu-central-1.amazonaws.com/dev/"
+const endpoint = "https://meta-dev.heeser.io/v1/"
 
 type Client struct {
 	httpClient *http.Client
 	endpoint   string
 	apiKey     string
 
-	Auth  AuthClient
-	Event EventClient
+	Auth    AuthClient
+	Event   EventClient
+	Project ProjectClient
+	User    UserClient
 }
 
 type AddHeaderTransport struct {
@@ -56,7 +58,12 @@ func WithAPIKey(apiKey string) *Client {
 	c.Event = EventClient{
 		client: c,
 	}
-
+	c.Project = ProjectClient{
+		client: c,
+	}
+	c.User = UserClient{
+		client: c,
+	}
 	return c
 }
 
@@ -107,23 +114,10 @@ func (c *Client) Do(r *http.Request, v interface{}) (*http.Response, error) {
 		resp.Body.Close()
 		resp.Body = ioutil.NopCloser(bytes.NewReader(body))
 
-		// if resp.StatusCode >= 400 && resp.StatusCode <= 599 {
-		// 	// log.Println("status code ", resp.StatusCode)
-
-		// 	// b, _ := ioutil.ReadAll(resp.Body)
-		// 	// log.Println("error msg ", string(b))
-		// }
-		// if resp.StatusCode >= 400 && resp.StatusCode <= 599 {
-		// 	err = errorFromResponse(resp, body)
-		// 	if err == nil {
-		// 		err = fmt.Errorf("hcloud: server responded with status code %d", resp.StatusCode)
-		// 	} else if isRetryable(err) {
-		// 		c.backoff(retries)
-		// 		retries++
-		// 		continue
-		// 	}
-		// 	return response, err
-		// }
+		if resp.StatusCode >= 400 && resp.StatusCode <= 599 {
+			err = ErrorFromBody(body)
+			return resp, err
+		}
 		if v != nil {
 			if w, ok := v.(io.Writer); ok {
 				_, err = io.Copy(w, bytes.NewReader(body))

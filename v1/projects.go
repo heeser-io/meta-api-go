@@ -94,7 +94,7 @@ func (c *ProjectClient) Delete(params *DeleteProjectParams) error {
 	return nil
 }
 
-func (c *ProjectClient) List(params *ListUserParams) ([]*Project, error) {
+func (c *ProjectClient) List(params *ListProjectParams) ([]*Project, error) {
 	projects := []*Project{}
 
 	req, err := c.client.NewRequest(context.Background(), "GET", "projects", nil)

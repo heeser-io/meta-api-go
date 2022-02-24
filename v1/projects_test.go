@@ -22,8 +22,17 @@ func init() {
 		Name: "TestProjekt",
 	}
 }
-func TestCreate(t *testing.T) {
+
+func createProject() (*Project, error) {
 	createdProject, err := client.Project.Create(createParams)
+	if err != nil {
+		return nil, err
+	}
+	return createdProject, nil
+}
+
+func TestCreate(t *testing.T) {
+	createdProject, err := createProject()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,7 +49,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	createdProject, err := client.Project.Create(createParams)
+	createdProject, err := createProject()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -68,7 +77,7 @@ func TestRead(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	createdProject, err := client.Project.Create(createParams)
+	createdProject, err := createProject()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -107,7 +116,7 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	createdProject, err := client.Project.Create(createParams)
+	createdProject, err := createProject()
 	if err != nil {
 		t.Fatal(err)
 	}

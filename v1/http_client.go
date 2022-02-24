@@ -19,6 +19,7 @@ type Client struct {
 	Auth    AuthClient
 	Event   EventClient
 	Project ProjectClient
+	ApiKey  ApiKeyClient
 	User    UserClient
 }
 
@@ -62,6 +63,9 @@ func WithAPIKey(apiKey string) *Client {
 		client: c,
 	}
 	c.User = UserClient{
+		client: c,
+	}
+	c.ApiKey = ApiKeyClient{
 		client: c,
 	}
 	return c

@@ -6,7 +6,8 @@ import (
 )
 
 type HttpError struct {
-	Error string `json:"error"`
+	Error   string `json:"error"`
+	Message string `json:"message"`
 }
 
 func ErrorFromBody(b []byte) error {
@@ -14,7 +15,9 @@ func ErrorFromBody(b []byte) error {
 	if err := json.Unmarshal(b, httpError); err != nil {
 		httpError.Error = string(b)
 	}
-
+	if httpError.Error == "" {
+		return errors.New(httpError.Message)
+	}
 	return errors.New(httpError.Error)
 }
 

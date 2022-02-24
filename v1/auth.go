@@ -18,7 +18,7 @@ type GenerateTokenParams struct {
 
 // GenerateToken will generate a token
 func (ac *AuthClient) GenerateToken(params *GenerateTokenParams) (string, error) {
-	req, err := ac.client.NewRequest(context.Background(), "POST", "create-token", structToReader(params))
+	req, err := ac.client.NewRequest(context.Background(), "POST", "socket/create-token", structToReader(params))
 	if err != nil {
 		return "", err
 	}
@@ -28,7 +28,6 @@ func (ac *AuthClient) GenerateToken(params *GenerateTokenParams) (string, error)
 	if err != nil {
 		return "", err
 	}
-
 	r, ok := token.(map[string]interface{})
 	if !ok {
 		return "", errors.New("cannot parse result")

@@ -31,9 +31,10 @@ type ReadApiKeyParams struct {
 	ApiKeyID  string `json:"-" validate:"required"`
 }
 type UpdateApiKeyParams struct {
-	ProjectID   string `json:"-" validate:"required"`
-	ApiKeyID    string `json:"-" validate:"required"`
-	Description string `json:"description" update:"true"`
+	ProjectID   string   `json:"-" validate:"required"`
+	ApiKeyID    string   `json:"-" validate:"required"`
+	Description string   `json:"description"`
+	Scope       []string `json:"scope"`
 }
 type DeleteApiKeyParams struct {
 	ProjectID string `json:"-" validate:"required"`

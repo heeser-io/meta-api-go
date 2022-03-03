@@ -21,6 +21,7 @@ type Client struct {
 	Project ProjectClient
 	ApiKey  ApiKeyClient
 	User    UserClient
+	Socket  SocketApiClient
 }
 
 type AddHeaderTransport struct {
@@ -66,6 +67,9 @@ func WithAPIKey(apiKey string) *Client {
 		client: c,
 	}
 	c.ApiKey = ApiKeyClient{
+		client: c,
+	}
+	c.Socket = SocketApiClient{
 		client: c,
 	}
 	return c

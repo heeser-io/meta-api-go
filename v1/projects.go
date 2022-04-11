@@ -10,12 +10,20 @@ type ProjectClient struct {
 }
 
 type Project struct {
-	ID          string `json:"id"`
-	UserID      string `json:"-"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	CreatedAt   string `json:"createdAt"`
-	UpdatedAt   string `json:"updatedAt"`
+	ID            string         `json:"id"`
+	UserID        string         `json:"-"`
+	Name          string         `json:"name"`
+	Description   string         `json:"description"`
+	EventMessages []EventMessage `json:"eventMessages,omitempty"`
+	CreatedAt     string         `json:"createdAt"`
+	UpdatedAt     string         `json:"updatedAt"`
+}
+
+type EventMessage struct {
+	ID           string      `json:"id"`
+	Event        string      `json:"event"`
+	Message      interface{} `json:"message"`
+	MetaSelector interface{} `json:"metaSelector"`
 }
 
 type CreateProjectParams struct {
